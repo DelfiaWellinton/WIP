@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>WIP - Movimentação</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="css/style.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <a href="home.html" class="btn-header-action" style="text-decoration: none;">Voltar</a>
+        </div>
+        <span class="user-info"></span>
+        <button id="save-button" class="btn-header-action" type="button">Salvar</button>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <h2>Movimentação de Produtos</h2>
+            <h4>Entrada, Saída e Transferência</h4>
+            <hr>
+            <form id="movimentacao-form">
+                <div class="form-group">
+                    <label>Tipo de Movimento:</label>
+                    <div class="radio-option-group">
+                        <div>
+                            <input type="radio" name="movimento" value="ENTRADA" id="movimento-entrada" required checked>
+                            <label for="movimento-entrada">Entrada</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="movimento" value="SAIDA" id="movimento-saida">
+                            <label for="movimento-saida">Saída</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="movimento" value="TRANSFERENCIA" id="movimento-transferencia">
+                            <label for="movimento-transferencia">Transferência</label>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Dados do Produto</h3>
+                <div class="form-group">
+                    <label for="COD_PRODUTO">Código do Produto:</label>
+                    <input type="text" id="COD_PRODUTO" name="COD_PRODUTO" placeholder="Escanear código do produto" required>
+                </div>
+
+                <div id="local-origem-section">
+                    <h3>Localização (Origem)</h3>
+                    <div class="form-group">
+                        <label for="RUA_ORIGEM">Rua:</label>
+                        <input type="text" id="RUA_ORIGEM" name="RUA_ORIGEM" placeholder="Ex: 01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ALTURA_ORIGEM">Altura:</label>
+                        <select id="ALTURA_ORIGEM" name="ALTURA_ORIGEM" required>
+                            <option value="">Selecione...</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="COLUNA_ORIGEM">Coluna:</label>
+                        <select id="COLUNA_ORIGEM" name="COLUNA_ORIGEM" required>
+                            <option value="">Selecione...</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="CAIXA_ORIGEM">Caixa (opcional):</label>
+                        <input type="number" id="CAIXA_ORIGEM" name="CAIXA_ORIGEM" min="1" placeholder="Nº da caixa (ex: 1)">
+                    </div>
+                </div>
+
+                <div id="local-destino-section" style="display: none;">
+                    <h3>Localização (Destino)</h3>
+                    <div class="form-group">
+                        <label for="RUA_DESTINO">Rua:</label>
+                        <input type="text" id="RUA_DESTINO" name="RUA_DESTINO" placeholder="Ex: 02">
+                    </div>
+                    <div class="form-group">
+                        <label for="ALTURA_DESTINO">Altura:</label>
+                        <select id="ALTURA_DESTINO" name="ALTURA_DESTINO">
+                            <option value="">Selecione...</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="COLUNA_DESTINO">Coluna:</label>
+                        <select id="COLUNA_DESTINO" name="COLUNA_DESTINO">
+                            <option value="">Selecione...</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="CAIXA_DESTINO">Caixa (opcional):</label>
+                        <input type="number" id="CAIXA_DESTINO" name="CAIXA_DESTINO" min="1" placeholder="Nº da caixa (ex: 1)">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/wip-movimentacao.js"></script>
+</body>
+</html>
