@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>WIP - Reversa</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="css/style.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <a href="home.html" class="btn-header-action" style="text-decoration: none;">Voltar</a>
+        </div>
+        <span class="user-info"></span>
+        <button id="save-button" class="btn-header-action" type="button">Salvar</button>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <div id="form-section" class="content-section active">
+                <h2>CONFERÊNCIA IN LOCO</h2>
+                <h4>Operação Reversa</h4>
+                <hr>
+                <form id="invoice-form">
+                    <div class="form-group">
+                        <label for="COD_RASTREIO">1. CÓDIGO RASTREIO:</label>
+                        <input id="COD_RASTREIO" name="COD_RASTREIO" required="" type="text" autofocus/>
+                    </div>
+                    <div class="form-group">
+                        <label for="COD_E_TICKET">2. CÓDIGO E-TICKET:</label>
+                        <input id="COD_E_TICKET" name="COD_E_TICKET" type="text"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="PROJETO">3. PROJETO:</label>
+                        <select id="PROJETO" name="PROJETO" required="">
+                            <option selected="" value="TELMEX">TELMEX</option>
+                            <option value="CLARO FUST">CLARO FUST</option>
+                            <option value="VIVO FUST">VIVO FUST</option>
+                            <option value="AMERICANAS">AMERICANAS</option>
+                            <option value="SEM INFORMAÇAO">SEM INFORMAÇAO</option>
+                            <option value="OUTRO">Outro...</option>
+                        </select>
+                        <input class="other-input" id="PROJETO_OUTRO" placeholder="Descreva o projeto" style="display: none;" type="text"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataLeitura">4. DATA DE LEITURA:</label>
+                        <input id="dataLeitura" name="dataLeitura" required="" type="date"/>
+                    </div>
+
+                    <h3>Itens para Conferência</h3>
+                    <div id="product-list" class="product-list-container">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn-add-product" type="button">Adicionar Produto</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="summary-modal" class="modal">
+        <div class="modal-content">
+            <h3>Resumo da Conferência</h3>
+            <div id="modal-body" class="modal-body">
+            </div>
+            <div class="modal-actions">
+                <button id="modal-cancel-btn" class="modal-btn btn-cancel" type="button">Voltar</button>
+                <button id="modal-submit-btn" class="modal-btn btn-submit" type="button">Salvar e Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/wip-reversa.js"></script>
+</body>
+</html>

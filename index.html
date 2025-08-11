@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Autenticação - WIP</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="css/style.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            </div>
+        <span class="user-info">Autenticação</span>
+        </div>
+
+    <div class="main-content">
+        <div class="container">
+            <h2>Bem-vindo ao WIP</h2>
+            <h4>Autenticação necessária</h4>
+            <hr>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="user-token">Token de Acesso:</label>
+                    <input id="user-token" name="user-token" type="password" required autofocus placeholder="Insira seu token aqui"/>
+                </div>
+                <div class="form-group">
+                    <label for="user-name">Seu Nome (opcional):</label>
+                    <input id="user-name" name="user-name" type="text" placeholder="Ex: Fulano de Tal"/>
+                </div>
+                <div class="form-actions">
+                    <button class="btn-add-product" type="submit">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

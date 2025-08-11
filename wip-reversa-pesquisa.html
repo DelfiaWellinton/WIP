@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>WIP - Reversa Pesquisa</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="css/style.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <a href="home.html" class="btn-header-action" style="text-decoration: none;">Voltar</a>
+        </div>
+        <span class="user-info"></span>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <div id="data-section" class="content-section active">
+                <h2>Dados de Conferência</h2>
+                <hr>
+                <button id="toggle-filters-btn" class="btn-filter-toggle" type="button">Exibir Filtros</button>
+                <div class="filter-wrapper">
+                    <div class="filter-container">
+                        <input type="text" id="filter-cod-rastreio" placeholder="Filtrar Cód. Rastreio">
+                        <input type="text" id="filter-cod-e-ticket" placeholder="Filtrar Cód. E-Ticket">
+                        <input type="text" id="filter-tipo" placeholder="Filtrar Tipo">
+                        <input type="text" id="filter-cod-produto" placeholder="Filtrar Cód. Produto">
+                        <input type="text" id="filter-projeto" placeholder="Filtrar Projeto">
+                        <input type="text" id="filter-destino" placeholder="Filtrar Destino">
+                        <input type="text" id="filter-data-leitura" placeholder="Filtrar Data">
+                        <input type="text" id="filter-caixa-num" placeholder="Filtrar Caixa">
+                    </div>
+                </div>
+                <div class="data-table-container">
+                    <table id="data-table">
+                        <thead>
+                            <tr>
+                                <th>Cód. Rastreio</th>
+                                <th>Cód. E-Ticket</th>
+                                <th>Tipo</th>
+                                <th>Cód. Produto</th>
+                                <th>Projeto</th>
+                                <th>Destino</th>
+                                <th>Data Leitura</th>
+                                <th>Anotações</th>
+                                <th>Caixa</th>
+                                <th>Descrição</th>
+                                <th>Follow-Up</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/wip-reversa-pesquisa.js"></script>
+</body>
+</html>
