@@ -1,5 +1,5 @@
 // js/wip-movimentacao.js
-/* doc-id: 0020 */
+/* doc-id: 0025 */
 document.addEventListener('DOMContentLoaded', () => {
     const userToken = localStorage.getItem('userToken');
     const userName = localStorage.getItem('userName');
@@ -36,104 +36,90 @@ document.addEventListener('DOMContentLoaded', () => {
     const codProdutoInput = document.getElementById('COD_PRODUTO');
     const caixaOrigemInput = document.getElementById('CAIXA_ORIGEM');
     const caixaDestinoInput = document.getElementById('CAIXA_DESTINO');
-    const movimentoRadios = form.querySelectorAll('input[name="movimento"]');
+    const movimentoButtonContainer = document.getElementById('movimento-buttons');
     const localDestinoSection = document.getElementById('local-destino-section');
 
     const ruaOptions = ['01', '02', '03', '04', '05'];
     const alturaOptions = ['1', '2', '3', '4', '5'];
     const colunaOptions = ['A', 'B', 'C', 'D'];
+    const movimentoOptions = ['ENTRADA', 'SAIDA', 'TRANSFERENCIA'];
 
-    const selections = {
+    // Objeto para armazenar as seleções ativas
+    const activeSelections = {
+        movimento: 'ENTRADA',
         origem: { rua: null, altura: null, coluna: null },
         destino: { rua: null, altura: null, coluna: null }
     };
-
-    const renderButtons = (containerId, options, targetLocation, nextContainerId) => {
+    
+    // Função para renderizar os botões e adicionar a lógica de click
+    const renderButtons = (containerId, options, selectionType, targetLocation = null) => {
         const container = document.getElementById(containerId);
         container.innerHTML = '';
+        
         options.forEach(option => {
             const button = document.createElement('button');
             button.type = 'button';
-            button.className = 'btn-movimentacao';
+            button.className = (containerId === 'movimento-buttons') ? 'btn-movimento' : 'btn-movimentacao';
             button.textContent = option;
             button.dataset.value = option;
+            
+            // Define o botão ativo inicial para o tipo de movimento
+            if (containerId === 'movimento-buttons' && activeSelections.movimento === option) {
+                button.classList.add('active');
+            }
+            
             button.addEventListener('click', () => {
                 // Remove 'active' de todos os botões do mesmo grupo
-                container.querySelectorAll('.btn-movimentacao').forEach(btn => btn.classList.remove('active'));
-                // Adiciona 'active' ao botão clicado
+                container.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
                 
-                // Salva a seleção
-                if (targetLocation === 'origem') {
-                    if (containerId.includes('rua')) selections.origem.rua = option;
-                    if (containerId.includes('altura')) selections.origem.altura = option;
-                    if (containerId.includes('coluna')) selections.origem.coluna = option;
-                } else {
-                    if (containerId.includes('rua')) selections.destino.rua = option;
-                    if (containerId.includes('altura')) selections.destino.altura = option;
-                    if (containerId.includes('coluna')) selections.destino.coluna = option;
-                }
-
-                // Mostra o próximo grupo de botões
-                if (nextContainerId) {
-                    const nextContainer = document.getElementById(nextContainerId);
-                    nextContainer.parentNode.style.display = 'block';
+                // Salva a seleção no objeto de estado
+                if (selectionType === 'movimento') {
+                    activeSelections.movimento = option;
+                    // Lógica para mostrar/esconder a seção de destino
+                    localDestinoSection.style.display = (option === 'TRANSFERENCIA') ? 'block' : 'none';
+                } else if (targetLocation) {
+                    activeSelections[targetLocation][selectionType] = option;
                 }
             });
             container.appendChild(button);
         });
     };
 
-    // Renderiza botões de Rua para Origem ao carregar
-    renderButtons('rua-buttons-origem', ruaOptions, 'origem', 'altura-buttons-origem');
-
-    // Renderiza botões de Altura e Coluna, inicialmente escondidos
-    renderButtons('altura-buttons-origem', alturaOptions, 'origem', 'coluna-buttons-origem');
-    renderButtons('coluna-buttons-origem', colunaOptions, 'origem', null);
+    // Renderiza todos os grupos de botões ao carregar a página
+    renderButtons('movimento-buttons', movimentoOptions, 'movimento');
+    renderButtons('rua-buttons-origem', ruaOptions, 'rua', 'origem');
+    renderButtons('coluna-buttons-origem', colunaOptions, 'coluna', 'origem');
+    renderButtons('altura-buttons-origem', alturaOptions, 'altura', 'origem');
+    renderButtons('rua-buttons-destino', ruaOptions, 'rua', 'destino');
+    renderButtons('coluna-buttons-destino', colunaOptions, 'coluna', 'destino');
+    renderButtons('altura-buttons-destino', alturaOptions, 'altura', 'destino');
     
-    // Renderiza botões de Destino (para uso em Transferência)
-    renderButtons('rua-buttons-destino', ruaOptions, 'destino', 'altura-buttons-destino');
-    renderButtons('altura-buttons-destino', alturaOptions, 'destino', 'coluna-buttons-destino');
-    renderButtons('coluna-buttons-destino', colunaOptions, 'destino', null);
-
-    const toggleLocalDestino = () => {
-        const isTransferencia = form.querySelector('input[name="movimento"]:checked').value === 'TRANSFERENCIA';
-        localDestinoSection.style.display = isTransferencia ? 'block' : 'none';
-        
-        // Zera as seleções de destino ao desmarcar Transferência
-        if (!isTransferencia) {
-            selections.destino = { rua: null, altura: null, coluna: null };
-            document.querySelectorAll('#local-destino-section .btn-movimentacao').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('#local-destino-section .form-group').forEach((group, index) => {
-                if (index > 0) group.style.display = 'none';
-            });
-        }
-    };
-
-    movimentoRadios.forEach(radio => radio.addEventListener('change', toggleLocalDestino));
-    toggleLocalDestino();
+    localDestinoSection.style.display = (activeSelections.movimento === 'TRANSFERENCIA') ? 'block' : 'none';
 
     const resetForm = () => {
         form.reset();
-        selections.origem = { rua: null, altura: null, coluna: null };
-        selections.destino = { rua: null, altura: null, coluna: null };
-        document.querySelectorAll('.btn-movimentacao').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('#local-origem-section .form-group, #local-destino-section .form-group').forEach((group, index) => {
-            if (index > 0) group.style.display = 'none';
-        });
-        document.getElementById('COD_PRODUTO').focus();
-        toggleLocalDestino();
+        codProdutoInput.focus();
+        
+        // Zera as seleções e re-renderiza para o estado inicial
+        activeSelections.movimento = 'ENTRADA';
+        activeSelections.origem = { rua: null, altura: null, coluna: null };
+        activeSelections.destino = { rua: null, altura: null, coluna: null };
+        
+        document.querySelectorAll('.btn-movimento, .btn-movimentacao').forEach(btn => btn.classList.remove('active'));
+        document.querySelector('.btn-movimento[data-value="ENTRADA"]').classList.add('active');
+        localDestinoSection.style.display = 'none';
     };
 
     const validateSelections = (location) => {
-        if (!selections[location].rua || !selections[location].altura || !selections[location].coluna) {
+        if (!activeSelections[location].rua || !activeSelections[location].altura || !activeSelections[location].coluna) {
             return false;
         }
         return true;
     };
 
     const submitData = async () => {
-        const movimento = form.querySelector('input[name="movimento"]:checked').value;
+        const movimento = activeSelections.movimento;
         const codProduto = "'" + codProdutoInput.value;
 
         if (!validateSelections('origem')) {
@@ -168,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return formData;
         };
         
-        const localOrigem = { ...selections.origem, caixa: caixaOrigemInput.value };
+        const localOrigem = { ...activeSelections.origem, caixa: caixaOrigemInput.value };
         
         if (movimento === 'ENTRADA') {
             const formData = createMovimentacaoFormData(localOrigem, 'ENTRADA');
@@ -182,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
             promises.push(fetch(googleFormsUrlMovimentacao, { method: 'POST', body: formData, mode: 'no-cors' }));
             
         } else if (movimento === 'TRANSFERENCIA') {
-            const localDestino = { ...selections.destino, caixa: caixaDestinoInput.value };
+            const localDestino = { ...activeSelections.destino, caixa: caixaDestinoInput.value };
             
             // SAÍDA da origem
             const formDataSaida = createMovimentacaoFormData(localOrigem, 'SAIDA');
@@ -210,6 +196,11 @@ document.addEventListener('DOMContentLoaded', () => {
     saveButton.addEventListener('click', (e) => {
         e.preventDefault();
         // A validação é feita dentro da função submitData agora
-        submitData();
+        if(codProdutoInput.value){
+            submitData();
+        } else {
+            alert('Por favor, preencha o código do produto.');
+            codProdutoInput.focus();
+        }
     });
 });
