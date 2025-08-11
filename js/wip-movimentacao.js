@@ -90,11 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Renderiza todos os grupos de botões ao carregar a página
     renderButtons('movimento-buttons', movimentoOptions, 'movimento');
     renderButtons('rua-buttons-origem', ruaOptions, 'rua', 'origem');
-    renderButtons('coluna-buttons-origem', colunaOptions, 'coluna', 'origem');
     renderButtons('altura-buttons-origem', alturaOptions, 'altura', 'origem');
+    renderButtons('coluna-buttons-origem', colunaOptions, 'coluna', 'origem');
     renderButtons('rua-buttons-destino', ruaOptions, 'rua', 'destino');
-    renderButtons('coluna-buttons-destino', colunaOptions, 'coluna', 'destino');
     renderButtons('altura-buttons-destino', alturaOptions, 'altura', 'destino');
+    renderButtons('coluna-buttons-destino', colunaOptions, 'coluna', 'destino');
     
     localDestinoSection.style.display = (activeSelections.movimento === 'TRANSFERENCIA') ? 'block' : 'none';
 
@@ -124,12 +124,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const codProduto = "'" + codProdutoInput.value;
 
         if (!validateSelections('origem')) {
-            alert('Por favor, selecione a localização completa de origem (Rua, Coluna, Altura).');
+            alert('Por favor, selecione a localização completa de origem (Rua, Altura, Coluna).');
             return;
         }
 
         if (movimento === 'TRANSFERENCIA' && !validateSelections('destino')) {
-            alert('Por favor, selecione a localização completa de destino (Rua, Coluna, Altura).');
+            alert('Por favor, selecione a localização completa de destino (Rua, Altura, Coluna).');
             return;
         }
 
