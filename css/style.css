@@ -1,4 +1,4 @@
-/* doc-id: 0007 */
+/* doc-id: 0027 */
 :root {
     --delfia-green-dark: #2E7D32;
     --delfia-green-medium: #66BB6A;
@@ -410,4 +410,39 @@ textarea::placeholder {
     .filter-container {
         grid-template-columns: 1fr;
     }
+}
+
+/* Estilos para a nova UI de botões */
+.button-group, .button-group-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.button-group-inline {
+    justify-content: flex-start;
+}
+
+.button-group button, .button-group-inline button {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius-base);
+    background-color: var(--light-gray);
+    color: var(--delfia-gray-dark);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.button-group button:hover, .button-group-inline button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Estilo para o botão selecionado (active) */
+.btn-movimento.active, .btn-movimentacao.active {
+    background-color: var(--delfia-green-dark);
+    color: var(--white);
+    border-color: var(--delfia-green-dark);
 }
