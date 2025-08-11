@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Opções de localização atualizadas conforme sua correção
     const ruaOptions = ['1', '2', '3', '4', '5'];
-    const alturaOptions = ['A', 'B', 'C'];
+    const alturaOptions = ['A', 'B', 'C', 'D'];
     const colunaOptions = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
     const movimentoOptions = ['ENTRADA', 'SAIDA', 'TRANSFERENCIA'];
 
