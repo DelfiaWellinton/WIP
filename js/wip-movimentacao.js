@@ -1,5 +1,5 @@
 // js/wip-movimentacao.js
-/* doc-id: 0025 */
+/* doc-id: 0028 */
 document.addEventListener('DOMContentLoaded', () => {
     const userToken = localStorage.getItem('userToken');
     const userName = localStorage.getItem('userName');
@@ -39,9 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const movimentoButtonContainer = document.getElementById('movimento-buttons');
     const localDestinoSection = document.getElementById('local-destino-section');
 
-    const ruaOptions = ['01', '02', '03', '04', '05'];
-    const alturaOptions = ['1', '2', '3', '4', '5'];
-    const colunaOptions = ['A', 'B', 'C', 'D'];
+    // Opções de localização atualizadas conforme sua correção
+    const ruaOptions = ['1', '2', '3', '4', '5'];
+    const alturaOptions = ['A', 'B', 'C'];
+    const colunaOptions = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
     const movimentoOptions = ['ENTRADA', 'SAIDA', 'TRANSFERENCIA'];
 
     // Objeto para armazenar as seleções ativas
@@ -123,12 +124,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const codProduto = "'" + codProdutoInput.value;
 
         if (!validateSelections('origem')) {
-            alert('Por favor, selecione a localização completa de origem (Rua, Altura, Coluna).');
+            alert('Por favor, selecione a localização completa de origem (Rua, Coluna, Altura).');
             return;
         }
 
         if (movimento === 'TRANSFERENCIA' && !validateSelections('destino')) {
-            alert('Por favor, selecione a localização completa de destino (Rua, Altura, Coluna).');
+            alert('Por favor, selecione a localização completa de destino (Rua, Coluna, Altura).');
             return;
         }
 
