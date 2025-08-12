@@ -1,5 +1,5 @@
 // js/wip-movimentacao.js
-/* doc-id: 0050 */
+/* doc-id: 0051 */
 document.addEventListener('DOMContentLoaded', () => {
     const userToken = localStorage.getItem('userToken');
     const userName = localStorage.getItem('userName');
@@ -47,15 +47,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById(containerId);
         container.innerHTML = '';
         
-        options.forEach(option => {
+        options.forEach((option, index) => {
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'btn-movimentacao';
             button.textContent = option;
             button.dataset.value = option;
             
+            // Lógica para definir o botão como ativo ao carregar
             if (selectionType === 'movimento' && activeSelections.movimento === option) {
                 button.classList.add('active');
+            } else if (targetLocation && !activeSelections[targetLocation][selectionType] && index === 0) {
+                button.classList.add('active');
+                activeSelections[targetLocation][selectionType] = option;
             }
             
             button.addEventListener('click', () => {
@@ -74,6 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const setupUI = () => {
+        // Redefine as seleções para o valor inicial para garantir que o primeiro botão seja selecionado
+        activeSelections.movimento = 'ENTRADA';
+        activeSelections.origem = { rua: null, altura: null, coluna: null };
+        activeSelections.destino = { rua: null, altura: null, coluna: null };
+        
         renderButtons('movimento-buttons', movimentoOptions, 'movimento');
         renderButtons('rua-buttons-origem', ruaOptions, 'rua', 'origem');
         renderButtons('altura-buttons-origem', alturaOptions, 'altura', 'origem');
