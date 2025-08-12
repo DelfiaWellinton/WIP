@@ -1,5 +1,5 @@
 // js/wip-movimentacao.js
-/* doc-id: 0042 */
+/* doc-id: 0048 */
 document.addEventListener('DOMContentLoaded', () => {
     const userToken = localStorage.getItem('userToken');
     const userName = localStorage.getItem('userName');
@@ -12,10 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const headerUserInfo = document.querySelector('.header .user-info');
     headerUserInfo.textContent = userName;
 
-    // URL do endpoint de submissão do formulário
     const googleFormsUrlMovimentacao = 'https://docs.google.com/forms/d/e/1FAIpQLSdzz6aYXT_ADFbujfYQPcjIcbeOoUUg-2Htz7mPGlYmPpdcyA/formResponse';
 
-    // Mapeamento corrigido das entradas do Google Forms
     const googleFormsEntriesMovimentacao = {
         rua: 'entry.1409567212',
         altura: 'entry.1379848018',
@@ -33,13 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const caixaDestinoInput = document.getElementById('CAIXA_DESTINO');
     const localDestinoSection = document.getElementById('local-destino-section');
 
-    // Elementos do modal
     const modal = document.getElementById('confirmation-modal');
     const modalSummary = document.getElementById('modal-summary');
     const sendModalButton = document.getElementById('send-modal');
     const cancelModalButton = document.getElementById('cancel-modal');
 
-    // Opções de localização agora corrigidas, seguindo a instrução original
     const ruaOptions = ['1', '2', '3', '4', '5'];
     const alturaOptions = ['A', 'B', 'C', 'D'];
     const colunaOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
@@ -58,11 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
         options.forEach(option => {
             const button = document.createElement('button');
             button.type = 'button';
-            button.className = (containerId === 'movimento-buttons') ? 'btn-movimento' : 'btn-movimentacao';
+            button.className = 'btn-movimentacao';
             button.textContent = option;
             button.dataset.value = option;
             
-            if (containerId === 'movimento-buttons' && activeSelections.movimento === option) {
+            if (selectionType === 'movimento' && activeSelections.movimento === option) {
                 button.classList.add('active');
             }
             
@@ -81,15 +77,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    renderButtons('movimento-buttons', movimentoOptions, 'movimento');
-    renderButtons('rua-buttons-origem', ruaOptions, 'rua', 'origem');
-    renderButtons('altura-buttons-origem', alturaOptions, 'altura', 'origem');
-    renderButtons('coluna-buttons-origem', colunaOptions, 'coluna', 'origem');
-    renderButtons('rua-buttons-destino', ruaOptions, 'rua', 'destino');
-    renderButtons('altura-buttons-destino', alturaOptions, 'altura', 'destino');
-    renderButtons('coluna-buttons-destino', colunaOptions, 'coluna', 'destino');
-    
-    localDestinoSection.style.display = (activeSelections.movimento === 'TRANSFERENCIA') ? 'block' : 'none';
+    const setupUI = () => {
+        renderButtons('movimento-buttons', movimentoOptions, 'movimento');
+        renderButtons('rua-buttons-origem', ruaOptions, 'rua', 'origem');
+        renderButtons('altura-buttons-origem', alturaOptions, 'altura', 'origem');
+        renderButtons('coluna-buttons-origem', colunaOptions, 'coluna', 'origem');
+        renderButtons('rua-buttons-destino', ruaOptions, 'rua', 'destino');
+        renderButtons('altura-buttons-destino', alturaOptions, 'altura', 'destino');
+        renderButtons('coluna-buttons-destino', colunaOptions, 'coluna', 'destino');
+        
+        localDestinoSection.style.display = (activeSelections.movimento === 'TRANSFERENCIA') ? 'block' : 'none';
+    };
 
     const resetForm = () => {
         form.reset();
@@ -99,9 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         activeSelections.origem = { rua: null, altura: null, coluna: null };
         activeSelections.destino = { rua: null, altura: null, coluna: null };
         
-        document.querySelectorAll('.btn-movimento, .btn-movimentacao').forEach(btn => btn.classList.remove('active'));
-        document.querySelector('.btn-movimento[data-value="ENTRADA"]').classList.add('active');
-        localDestinoSection.style.display = 'none';
+        setupUI();
     };
 
     const validateSelections = (location) => {
@@ -139,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         modalSummary.innerHTML = summaryHtml;
-        modal.style.display = 'block';
+        modal.style.display = 'flex';
     };
 
     const submitData = async () => {
@@ -199,7 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     sendModalButton.addEventListener('click', submitData);
-
     cancelModalButton.addEventListener('click', () => {
         modal.style.display = 'none';
     });
@@ -209,4 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.style.display = 'none';
         }
     };
+    
+    setupUI();
 });

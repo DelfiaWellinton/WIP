@@ -1,0 +1,79 @@
+/* css/wip-movimentacao.css */
+/* doc-id: 0046 */
+
+.location-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.location-container {
+    flex: 1;
+    min-width: 300px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.location-container h3 {
+    text-align: center;
+}
+
+.modal-content h3 {
+    text-align: center;
+    margin-top: 0;
+    color: var(--delfia-green-dark);
+}
+
+.modal-content p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.modal-content strong {
+    color: var(--delfia-green-dark);
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-salvar, .btn-confirmar {
+    background-color: var(--delfia-green-dark);
+    color: var(--white);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-salvar:hover, .btn-confirmar:hover {
+    opacity: 0.9;
+}
+
+.btn-cancelar {
+    background-color: var(--delfia-red);
+    color: var(--white);
+    margin-left: 10px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-cancelar:hover {
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+    .location-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+}

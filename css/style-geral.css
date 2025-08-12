@@ -1,0 +1,122 @@
+/* css/style-geral.css */
+/* doc-id: 0044 */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --delfia-green-dark: #2E7D32;
+    --delfia-green-medium: #66BB6A;
+    --delfia-gray-dark: #333;
+    --delfia-black: #212121;
+    --delfia-red: #d32f2f;
+    --white: #fff;
+    --light-gray: #f4f4f4;
+    --border-radius-base: 6px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding-top: 60px;
+    background-color: var(--light-gray);
+    color: var(--delfia-gray-dark);
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: var(--delfia-green-dark);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1000;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-left button {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 15px;
+    outline: none;
+}
+
+.header .user-info {
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    flex-grow: 1;
+    padding: 0 10px;
+}
+
+.header .btn-header-action {
+    background: none;
+    border: 2px solid var(--white);
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: var(--border-radius-base);
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.header .btn-header-action:hover {
+    background-color: var(--white);
+    color: var(--delfia-green-dark);
+}
+
+.main-content {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: var(--border-radius-base);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+h2, h3, h4 {
+    text-align: center;
+    color: var(--delfia-green-dark);
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    font-size: 1.5em;
+}
+
+h4 {
+    color: var(--delfia-gray-dark);
+    font-size: 1.2em;
+}
+
+h3 {
+    font-size: 1.1em;
+    margin: 20px 0 15px 0;
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--light-gray);
+}
