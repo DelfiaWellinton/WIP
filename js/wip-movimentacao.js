@@ -1,5 +1,5 @@
 // js/wip-movimentacao.js
-/* doc-id: 0037 */
+/* doc-id: 0042 */
 document.addEventListener('DOMContentLoaded', () => {
     const userToken = localStorage.getItem('userToken');
     const userName = localStorage.getItem('userName');
@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // URL do endpoint de submissão do formulário
     const googleFormsUrlMovimentacao = 'https://docs.google.com/forms/d/e/1FAIpQLSdzz6aYXT_ADFbujfYQPcjIcbeOoUUg-2Htz7mPGlYmPpdcyA/formResponse';
 
+    // Mapeamento corrigido das entradas do Google Forms
     const googleFormsEntriesMovimentacao = {
         rua: 'entry.1409567212',
         altura: 'entry.1379848018',
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendModalButton = document.getElementById('send-modal');
     const cancelModalButton = document.getElementById('cancel-modal');
 
-    // Opções de localização corrigidas
+    // Opções de localização agora corrigidas, seguindo a instrução original
     const ruaOptions = ['1', '2', '3', '4', '5'];
     const alturaOptions = ['A', 'B', 'C', 'D'];
     const colunaOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];

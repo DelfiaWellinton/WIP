@@ -1,8 +1,13 @@
-/* doc-id: 0027 */
+/* css/style.css */
+/* doc-id: 0043 */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 :root {
     --delfia-green-dark: #2E7D32;
     --delfia-green-medium: #66BB6A;
     --delfia-gray-dark: #333;
+    --delfia-black: #212121;
+    --delfia-red: #d32f2f;
     --white: #fff;
     --light-gray: #f4f4f4;
     --border-radius-base: 6px;
@@ -133,7 +138,7 @@ body {
 }
 
 .filter-wrapper {
-    display: none; /* Inicia oculto */
+    display: none;
 }
 
 .filter-wrapper.active {
@@ -262,7 +267,7 @@ textarea::placeholder {
 
 .product-line .btn-remove {
     background-color: #f44336;
-    color: white;
+    color: var(--white);
     border: none;
     padding: 5px 9px;
     border-radius: 50%;
@@ -337,6 +342,8 @@ textarea::placeholder {
     margin-top: 0;
     border-bottom: 2px solid var(--light-gray);
     padding-bottom: 10px;
+    text-align: center;
+    color: var(--delfia-green-dark);
 }
 .modal-body {
     max-height: 60vh;
@@ -370,6 +377,74 @@ textarea::placeholder {
 .btn-submit {
     background-color: var(--delfia-green-dark);
     color: var(--white);
+}
+
+/* Estilos para a nova UI de botões */
+.location-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.location-container {
+    flex: 1;
+    min-width: 300px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+.location-container h3 {
+    text-align: center;
+}
+.button-group, .button-group-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
+}
+.btn-movimento, .btn-movimentacao {
+    flex: 1 1 auto;
+    padding: 10px;
+    border: 1px solid var(--delfia-green-dark);
+    background-color: var(--white);
+    color: var(--delfia-green-dark);
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.2s, color 0.2s;
+    text-align: center;
+}
+.btn-movimento.active, .btn-movimentacao.active {
+    background-color: var(--delfia-green-dark);
+    color: var(--white);
+}
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+.btn-salvar, .btn-confirmar, .btn-cancelar {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-salvar, .btn-confirmar {
+    background-color: var(--delfia-green-dark);
+    color: var(--white);
+}
+.btn-salvar:hover, .btn-confirmar:hover {
+    opacity: 0.9;
+}
+.btn-cancelar {
+    background-color: var(--delfia-red);
+    color: var(--white);
+    margin-left: 10px;
+}
+.btn-cancelar:hover {
+    opacity: 0.9;
 }
 
 
@@ -410,39 +485,8 @@ textarea::placeholder {
     .filter-container {
         grid-template-columns: 1fr;
     }
-}
-
-/* Estilos para a nova UI de botões */
-.button-group, .button-group-inline {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 5px;
-}
-
-.button-group-inline {
-    justify-content: flex-start;
-}
-
-.button-group button, .button-group-inline button {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: var(--border-radius-base);
-    background-color: var(--light-gray);
-    color: var(--delfia-gray-dark);
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-
-.button-group button:hover, .button-group-inline button:hover {
-    background-color: #e0e0e0;
-}
-
-/* Estilo para o botão selecionado (active) */
-.btn-movimento.active, .btn-movimentacao.active {
-    background-color: var(--delfia-green-dark);
-    color: var(--white);
-    border-color: var(--delfia-green-dark);
+    .location-group {
+        flex-direction: column;
+        gap: 15px;
+    }
 }
