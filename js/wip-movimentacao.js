@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Opções de localização corrigidas para corresponderem ao formulário
     const ruaOptions = ['1', '2', '3', '4', '5'];
-    const alturaOptions = ['1', '2', '3', '4'];
-    const colunaOptions = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+    const alturaOptions = ['A', 'B', 'C', 'D'];
+    const colunaOptions =  ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
     const movimentoOptions = ['ENTRADA', 'SAIDA', 'TRANSFERENCIA'];
 
     const activeSelections = {
@@ -76,11 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderButtons('movimento-buttons', movimentoOptions, 'movimento');
     renderButtons('rua-buttons-origem', ruaOptions, 'rua', 'origem');
-    renderButtons('coluna-buttons-origem', colunaOptions, 'coluna', 'origem');
     renderButtons('altura-buttons-origem', alturaOptions, 'altura', 'origem');
+    renderButtons('coluna-buttons-origem', colunaOptions, 'coluna', 'origem');
     renderButtons('rua-buttons-destino', ruaOptions, 'rua', 'destino');
-    renderButtons('coluna-buttons-destino', colunaOptions, 'coluna', 'destino');
     renderButtons('altura-buttons-destino', alturaOptions, 'altura', 'destino');
+    renderButtons('coluna-buttons-destino', colunaOptions, 'coluna', 'destino');
     
     localDestinoSection.style.display = (activeSelections.movimento === 'TRANSFERENCIA') ? 'block' : 'none';
 
