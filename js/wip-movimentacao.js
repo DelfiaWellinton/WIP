@@ -1,5 +1,5 @@
 // js/wip-movimentacao.js
-/* doc-id: 0032 */
+/* doc-id: 0033 */
 document.addEventListener('DOMContentLoaded', () => {
     const userToken = localStorage.getItem('userToken');
     const userName = localStorage.getItem('userName');
@@ -32,9 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const movimentoButtonContainer = document.getElementById('movimento-buttons');
     const localDestinoSection = document.getElementById('local-destino-section');
 
+    // Opções de localização corrigidas para corresponderem ao formulário
     const ruaOptions = ['1', '2', '3', '4', '5'];
-    const alturaOptions = ['A', 'B', 'C', 'D'];
-    const colunaOptions = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    const alturaOptions = ['1', '2', '3', '4'];
+    const colunaOptions = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
     const movimentoOptions = ['ENTRADA', 'SAIDA', 'TRANSFERENCIA'];
 
     const activeSelections = {
@@ -105,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const submitData = async () => {
         const movimento = activeSelections.movimento;
-        const codProduto = "'" + codProdutoInput.value;
+        const codProduto = codProdutoInput.value;
 
         if (!validateSelections('origem')) {
             alert('Por favor, selecione a localização completa de origem (Rua, Coluna, Altura).');
@@ -121,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const createMovimentacaoFormData = (locationData, movementType) => {
             const formData = new URLSearchParams();
-            formData.append(googleFormsEntriesMovimentacao.rua, "'" + locationData.rua);
+            formData.append(googleFormsEntriesMovimentacao.rua, locationData.rua);
             formData.append(googleFormsEntriesMovimentacao.altura, locationData.altura);
             formData.append(googleFormsEntriesMovimentacao.coluna, locationData.coluna);
             formData.append(googleFormsEntriesMovimentacao.caixa, locationData.caixa);
