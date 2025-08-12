@@ -25,8 +25,9 @@
         <div class="container">
             <form id="movimentacao-form">
                 <div class="form-group">
-                    <label for="COD_PRODUTO">Código do Produto:</label>
-                    <input type="text" id="COD_PRODUTO" name="COD_PRODUTO" required autofocus>
+                    <label for="COD_PRODUTO">Código(s) do Produto:</label>
+                    <textarea id="COD_PRODUTO" name="COD_PRODUTO" rows="4" placeholder="Insira os códigos separados por vírgula. Ex: A1, B2, C3" required autofocus></textarea>
+                    <small>Insira um ou mais códigos de produto, separando-os por vírgula.</small>
                 </div>
 
                 <div class="form-group">
@@ -80,10 +81,19 @@
                     <button type="button" id="save-button" class="btn-salvar">Salvar</button>
                 </div>
             </form>
-            
-            <div id="url-output"></div>
         </div>
     </main>
+
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <h3>Confirmação de Movimentação</h3>
+            <div id="modal-summary"></div>
+            <div class="modal-actions">
+                <button type="button" id="cancel-modal" class="modal-btn btn-cancelar">Cancelar</button>
+                <button type="button" id="send-modal" class="modal-btn btn-confirmar">Confirmar e Enviar</button>
+            </div>
+        </div>
+    </div>
     
     <script src="js/wip-movimentacao.js"></script>
 </body>

@@ -1,5 +1,5 @@
 // js/wip-movimentacao.js
-/* doc-id: 0052 */
+/* doc-id: 0055 */
 document.addEventListener('DOMContentLoaded', () => {
     const userToken = localStorage.getItem('userToken');
     const userName = localStorage.getItem('userName');
@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const googleFormsEntries = {
         rua: 'entry.1409567212',
-        altura: 'entry.555819332', // CORRIGIDO
-        coluna: 'entry.1379848018', // CORRIGIDO
+        altura: 'entry.555819332',
+        coluna: 'entry.1379848018',
         caixa: 'entry.1426872400',
         cod_produto: 'entry.564171710',
         movimento: 'entry.2124001132',
@@ -30,7 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const caixaOrigemInput = document.getElementById('CAIXA_ORIGEM');
     const caixaDestinoInput = document.getElementById('CAIXA_DESTINO');
     const localDestinoSection = document.getElementById('local-destino-section');
-    const urlOutput = document.getElementById('url-output');
+    
+    // Variáveis do modal
+    const modal = document.getElementById('confirmation-modal');
+    const modalSummary = document.getElementById('modal-summary');
+    const sendModalButton = document.getElementById('send-modal');
+    const cancelModalButton = document.getElementById('cancel-modal');
 
     const ruaOptions = ['1', '2', '3', '4', '5'];
     const alturaOptions = ['A', 'B', 'C', 'D'];
@@ -99,13 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return true;
     };
     
-    const generateAndDisplayUrls = () => {
+    const showConfirmationModal = () => {
         const movimento = activeSelections.movimento;
-        const codProduto = codProdutoInput.value;
-        const localOrigem = { ...activeSelections.origem, caixa: caixaOrigemInput.value };
-        
-        if (!codProduto) {
-            alert('Por favor, preencha o código do produto.');
+        const codProdutos = codProdutoInput.value.split(',').map(code => code.trim()).filter(code => code !== '');
+        const localOrigem = activeSelections.origem;
+        const caixaOrigem = caixaOrigemInput.value;
+
+        if (!codProdutos || codProdutos.length === 0) {
+            alert('Por favor, preencha o(s) código(s) do(s) produto(s).');
             codProdutoInput.focus();
             return;
         }
@@ -114,48 +120,104 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Por favor, selecione a localização completa de origem (Rua, Altura, Coluna).');
             return;
         }
+        
+        let summaryHtml = `
+            <p><strong>Tipo:</strong> ${movimento}</p>
+            <p><strong>Local Origem:</strong> ${localOrigem.rua}-${localOrigem.altura}-${localOrigem.coluna} (Caixa: ${caixaOrigem})</p>
+            <p><strong>Código(s) do(s) Produto(s):</strong></p>
+            <ul>${codProdutos.map(code => `<li>${code}</li>`).join('')}</ul>
+        `;
 
-        const createMovimentacaoFormData = (locationData, movementType) => {
+        if (movimento === 'TRANSFERENCIA') {
+            const localDestino = activeSelections.destino;
+            const caixaDestino = caixaDestinoInput.value;
+            if (!validateSelections('destino')) {
+                alert('Por favor, selecione a localização completa de destino (Rua, Altura, Coluna).');
+                return;
+            }
+            summaryHtml += `<p><strong>Local Destino:</strong> ${localDestino.rua}-${localDestino.altura}-${localDestino.coluna} (Caixa: ${caixaDestino})</p>`;
+        }
+
+        modalSummary.innerHTML = summaryHtml;
+        modal.style.display = 'flex';
+    };
+
+    const resetForm = () => {
+        form.reset();
+        codProdutoInput.focus();
+        
+        activeSelections.movimento = 'ENTRADA';
+        activeSelections.origem = { rua: null, altura: null, coluna: null };
+        activeSelections.destino = { rua: null, altura: null, coluna: null };
+        
+        setupUI();
+    };
+    
+    const submitData = async () => {
+        const movimento = activeSelections.movimento;
+        const codProdutos = codProdutoInput.value.split(',').map(code => code.trim()).filter(code => code !== '');
+        const localOrigem = { ...activeSelections.origem, caixa: caixaOrigemInput.value };
+        const promises = [];
+
+        const createMovimentacaoFormData = (cod_produto, locationData, movementType) => {
             const formData = new URLSearchParams();
             formData.append(googleFormsEntries.rua, locationData.rua);
             formData.append(googleFormsEntries.altura, locationData.altura);
             formData.append(googleFormsEntries.coluna, locationData.coluna);
             formData.append(googleFormsEntries.caixa, locationData.caixa);
-            formData.append(googleFormsEntries.cod_produto, codProduto);
+            formData.append(googleFormsEntries.cod_produto, cod_produto);
             formData.append(googleFormsEntries.movimento, movementType);
             formData.append(googleFormsEntries.token, userToken);
             return formData;
         };
-
-        let outputHtml = '<h4>URLs Geradas (para Depuração):</h4>';
-
-        if (movimento === 'ENTRADA') {
-            const formData = createMovimentacaoFormData(localOrigem, 'ENTRADA');
-            outputHtml += `<p><strong>ENTRADA:</strong> <a href="${googleFormsUrlBase}?${formData.toString()}" target="_blank">${googleFormsUrlBase}?${formData.toString()}</a></p>`;
-        } else if (movimento === 'SAIDA') {
-            const formData = createMovimentacaoFormData(localOrigem, 'SAIDA');
-            outputHtml += `<p><strong>SAÍDA:</strong> <a href="${googleFormsUrlBase}?${formData.toString()}" target="_blank">${googleFormsUrlBase}?${formData.toString()}</a></p>`;
-        } else if (movimento === 'TRANSFERENCIA') {
-            const localDestino = { ...activeSelections.destino, caixa: caixaDestinoInput.value };
-            if (!validateSelections('destino')) {
-                alert('Por favor, selecione a localização completa de destino (Rua, Altura, Coluna).');
-                return;
+        
+        // Envia uma requisição para cada código de produto
+        codProdutos.forEach(codProduto => {
+            if (movimento === 'ENTRADA') {
+                const formData = createMovimentacaoFormData(codProduto, localOrigem, 'ENTRADA');
+                promises.push(fetch(googleFormsUrlBase, { method: 'POST', body: formData, mode: 'no-cors' }));
+            } else if (movimento === 'SAIDA') {
+                const formData = createMovimentacaoFormData(codProduto, localOrigem, 'SAIDA');
+                promises.push(fetch(googleFormsUrlBase, { method: 'POST', body: formData, mode: 'no-cors' }));
+            } else if (movimento === 'TRANSFERENCIA') {
+                const localDestino = { ...activeSelections.destino, caixa: caixaDestinoInput.value };
+                
+                const formDataSaida = createMovimentacaoFormData(codProduto, localOrigem, 'SAIDA');
+                promises.push(fetch(googleFormsUrlBase, { method: 'POST', body: formDataSaida, mode: 'no-cors' }));
+                
+                const formDataEntrada = createMovimentacaoFormData(codProduto, localDestino, 'ENTRADA');
+                promises.push(fetch(googleFormsUrlBase, { method: 'POST', body: formDataEntrada, mode: 'no-cors' }));
             }
-            
-            const formDataSaida = createMovimentacaoFormData(localOrigem, 'SAIDA');
-            const formDataEntrada = createMovimentacaoFormData(localDestino, 'ENTRADA');
-            
-            outputHtml += `<p><strong>SAÍDA (Origem):</strong> <a href="${googleFormsUrlBase}?${formDataSaida.toString()}" target="_blank">${googleFormsUrlBase}?${formDataSaida.toString()}</a></p>`;
-            outputHtml += `<p><strong>ENTRADA (Destino):</strong> <a href="${googleFormsUrlBase}?${formDataEntrada.toString()}" target="_blank">${googleFormsUrlBase}?${formDataEntrada.toString()}</a></p>`;
-        }
+        });
 
-        urlOutput.innerHTML = outputHtml;
+        try {
+            // Aguarda todas as requisições serem concluídas
+            await Promise.all(promises);
+            alert('Movimentação registrada com sucesso!');
+            resetForm();
+        } catch (error) {
+            console.error('Erro no envio:', error);
+            alert('Houve um erro ao registrar a movimentação. Verifique a conexão.');
+        } finally {
+            modal.style.display = 'none';
+        }
     };
     
     saveButton.addEventListener('click', (e) => {
         e.preventDefault();
-        generateAndDisplayUrls();
+        showConfirmationModal();
     });
+
+    sendModalButton.addEventListener('click', submitData);
+    cancelModalButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
     
     setupUI();
 });
