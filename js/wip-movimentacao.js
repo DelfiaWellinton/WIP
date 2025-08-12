@@ -1,5 +1,5 @@
 // js/wip-movimentacao.js
-/* doc-id: 0051 */
+/* doc-id: 0052 */
 document.addEventListener('DOMContentLoaded', () => {
     const userToken = localStorage.getItem('userToken');
     const userName = localStorage.getItem('userName');
@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const googleFormsEntries = {
         rua: 'entry.1409567212',
-        altura: 'entry.1379848018',
-        coluna: 'entry.555819332',
+        altura: 'entry.555819332', // CORRIGIDO
+        coluna: 'entry.1379848018', // CORRIGIDO
         caixa: 'entry.1426872400',
         cod_produto: 'entry.564171710',
         movimento: 'entry.2124001132',
@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
             button.textContent = option;
             button.dataset.value = option;
             
-            // Lógica para definir o botão como ativo ao carregar
             if (selectionType === 'movimento' && activeSelections.movimento === option) {
                 button.classList.add('active');
             } else if (targetLocation && !activeSelections[targetLocation][selectionType] && index === 0) {
@@ -78,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const setupUI = () => {
-        // Redefine as seleções para o valor inicial para garantir que o primeiro botão seja selecionado
         activeSelections.movimento = 'ENTRADA';
         activeSelections.origem = { rua: null, altura: null, coluna: null };
         activeSelections.destino = { rua: null, altura: null, coluna: null };
