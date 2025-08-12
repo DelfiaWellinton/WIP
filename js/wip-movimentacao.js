@@ -1,5 +1,5 @@
 // js/wip-movimentacao.js
-/* doc-id: 0033 */
+/* doc-id: 0037 */
 document.addEventListener('DOMContentLoaded', () => {
     const userToken = localStorage.getItem('userToken');
     const userName = localStorage.getItem('userName');
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const headerUserInfo = document.querySelector('.header .user-info');
     headerUserInfo.textContent = userName;
 
+    // URL do endpoint de submissão do formulário
     const googleFormsUrlMovimentacao = 'https://docs.google.com/forms/d/e/1FAIpQLSdzz6aYXT_ADFbujfYQPcjIcbeOoUUg-2Htz7mPGlYmPpdcyA/formResponse';
 
     const googleFormsEntriesMovimentacao = {
@@ -29,13 +30,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const codProdutoInput = document.getElementById('COD_PRODUTO');
     const caixaOrigemInput = document.getElementById('CAIXA_ORIGEM');
     const caixaDestinoInput = document.getElementById('CAIXA_DESTINO');
-    const movimentoButtonContainer = document.getElementById('movimento-buttons');
     const localDestinoSection = document.getElementById('local-destino-section');
 
-    // Opções de localização corrigidas para corresponderem ao formulário
+    // Elementos do modal
+    const modal = document.getElementById('confirmation-modal');
+    const modalSummary = document.getElementById('modal-summary');
+    const sendModalButton = document.getElementById('send-modal');
+    const cancelModalButton = document.getElementById('cancel-modal');
+
+    // Opções de localização corrigidas
     const ruaOptions = ['1', '2', '3', '4', '5'];
     const alturaOptions = ['A', 'B', 'C', 'D'];
-    const colunaOptions =  ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+    const colunaOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
     const movimentoOptions = ['ENTRADA', 'SAIDA', 'TRANSFERENCIA'];
 
     const activeSelections = {
@@ -103,21 +109,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return true;
     };
+    
+    const showConfirmationModal = () => {
+        const movimento = activeSelections.movimento;
+        const codProduto = codProdutoInput.value;
+        const localOrigem = activeSelections.origem;
+        const caixaOrigem = caixaOrigemInput.value;
+
+        if (!validateSelections('origem')) {
+            alert('Por favor, selecione a localização completa de origem (Rua, Altura, Coluna).');
+            return;
+        }
+        
+        let summaryHtml = `
+            <p><strong>Tipo:</strong> ${movimento}</p>
+            <p><strong>Produto:</strong> ${codProduto}</p>
+            <p><strong>Local Origem:</strong> ${localOrigem.rua}-${localOrigem.altura}-${localOrigem.coluna} (Caixa: ${caixaOrigem})</p>
+        `;
+
+        if (movimento === 'TRANSFERENCIA') {
+            const localDestino = activeSelections.destino;
+            const caixaDestino = caixaDestinoInput.value;
+            if (!validateSelections('destino')) {
+                alert('Por favor, selecione a localização completa de destino (Rua, Altura, Coluna).');
+                return;
+            }
+            summaryHtml += `<p><strong>Local Destino:</strong> ${localDestino.rua}-${localDestino.altura}-${localDestino.coluna} (Caixa: ${caixaDestino})</p>`;
+        }
+
+        modalSummary.innerHTML = summaryHtml;
+        modal.style.display = 'block';
+    };
 
     const submitData = async () => {
         const movimento = activeSelections.movimento;
         const codProduto = codProdutoInput.value;
-
-        if (!validateSelections('origem')) {
-            alert('Por favor, selecione a localização completa de origem (Rua, Coluna, Altura).');
-            return;
-        }
-
-        if (movimento === 'TRANSFERENCIA' && !validateSelections('destino')) {
-            alert('Por favor, selecione a localização completa de destino (Rua, Coluna, Altura).');
-            return;
-        }
-
+        const localOrigem = { ...activeSelections.origem, caixa: caixaOrigemInput.value };
         const promises = [];
 
         const createMovimentacaoFormData = (locationData, movementType) => {
@@ -132,16 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return formData;
         };
         
-        const localOrigem = { ...activeSelections.origem, caixa: caixaOrigemInput.value };
-        
         if (movimento === 'ENTRADA') {
             const formData = createMovimentacaoFormData(localOrigem, 'ENTRADA');
             promises.push(fetch(googleFormsUrlMovimentacao, { method: 'POST', body: formData, mode: 'no-cors' }));
-            
         } else if (movimento === 'SAIDA') {
             const formData = createMovimentacaoFormData(localOrigem, 'SAIDA');
             promises.push(fetch(googleFormsUrlMovimentacao, { method: 'POST', body: formData, mode: 'no-cors' }));
-            
         } else if (movimento === 'TRANSFERENCIA') {
             const localDestino = { ...activeSelections.destino, caixa: caixaDestinoInput.value };
             
@@ -159,16 +182,30 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Erro no envio:', error);
             alert('Houve um erro ao registrar a movimentação. Verifique a conexão.');
+        } finally {
+            modal.style.display = 'none';
         }
     };
     
     saveButton.addEventListener('click', (e) => {
         e.preventDefault();
         if(codProdutoInput.value){
-            submitData();
+            showConfirmationModal();
         } else {
             alert('Por favor, preencha o código do produto.');
             codProdutoInput.focus();
         }
     });
+
+    sendModalButton.addEventListener('click', submitData);
+
+    cancelModalButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
 });

@@ -1,90 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WIP - Movimentação</title>
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
-    <link href="css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="header">
-        <div class="header-left">
-            <a href="home.html" class="btn-header-action" style="text-decoration: none;">Voltar</a>
+    <header>
+        <div class="user-info"></div>
+        <div class="header-content">
+            <h1>Movimentação</h1>
         </div>
-        <span class="user-info"></span>
-        <button id="save-button" class="btn-header-action" type="button">Salvar</button>
-    </div>
+        <nav>
+            <a href="home.html" class="voltar-btn">Voltar</a>
+        </nav>
+    </header>
 
-    <div class="main-content">
-        <div class="container">
-            <h2>Movimentação de Produtos</h2>
-            <h4>Entrada, Saída e Transferência</h4>
-            <hr>
-            <form id="movimentacao-form">
-                <div class="form-group">
-                    <label>Tipo de Movimento:</label>
-                    <div id="movimento-buttons" class="button-group-inline">
-                        <button type="button" class="btn-movimento active" data-value="ENTRADA">Entrada</button>
-                        <button type="button" class="btn-movimento" data-value="SAIDA">Saída</button>
-                        <button type="button" class="btn-movimento" data-value="TRANSFERENCIA">Transferência</button>
-                    </div>
-                </div>
+    <main>
+        <form id="movimentacao-form">
+            <div class="input-group">
+                <label for="COD_PRODUTO">Código do Produto:</label>
+                <input type="text" id="COD_PRODUTO" name="COD_PRODUTO" required autofocus>
+            </div>
 
-                <h3>Dados do Produto</h3>
-                <div class="form-group">
-                    <label for="COD_PRODUTO">Código do Produto:</label>
-                    <input type="text" id="COD_PRODUTO" name="COD_PRODUTO" placeholder="Escanear código do produto" autofocus required>
-                </div>
+            <div class="input-group">
+                <label>Tipo de Movimento:</label>
+                <div class="button-group" id="movimento-buttons"></div>
+            </div>
 
-                <div id="local-origem-section">
-                    <h3>Localização (Origem)</h3>
-                    <div class="form-group">
-                        <label>Rua:</label>
-                        <div id="rua-buttons-origem" class="button-group">
-                            </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Altura:</label>
-                        <div id="altura-buttons-origem" class="button-group">
-                            </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Coluna:</label>
-                        <div id="coluna-buttons-origem" class="button-group">
-                            </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="CAIXA_ORIGEM">Caixa (opcional):</label>
-                        <input type="number" id="CAIXA_ORIGEM" name="CAIXA_ORIGEM" min="1" placeholder="Nº da caixa (ex: 1)">
-                    </div>
+            <div class="location-group">
+                <div class="location-container" id="local-origem-section">
+                    <h3>Origem</h3>
+                    <label>Rua:</label>
+                    <div class="button-group" id="rua-buttons-origem"></div>
+                    <label>Altura:</label>
+                    <div class="button-group" id="altura-buttons-origem"></div>
+                    <label>Coluna:</label>
+                    <div class="button-group" id="coluna-buttons-origem"></div>
+                    <label for="CAIXA_ORIGEM">Caixa:</label>
+                    <input type="number" id="CAIXA_ORIGEM" name="CAIXA_ORIGEM" min="1" value="1">
                 </div>
+                
+                <div class="location-container" id="local-destino-section">
+                    <h3>Destino</h3>
+                    <label>Rua:</label>
+                    <div class="button-group" id="rua-buttons-destino"></div>
+                    <label>Altura:</label>
+                    <div class="button-group" id="altura-buttons-destino"></div>
+                    <label>Coluna:</label>
+                    <div class="button-group" id="coluna-buttons-destino"></div>
+                    <label for="CAIXA_DESTINO">Caixa:</label>
+                    <input type="number" id="CAIXA_DESTINO" name="CAIXA_DESTINO" min="1" value="1">
+                </div>
+            </div>
 
-                <div id="local-destino-section" style="display: none;">
-                    <h3>Localização (Destino)</h3>
-                    <div class="form-group">
-                        <label>Rua:</label>
-                        <div id="rua-buttons-destino" class="button-group">
-                            </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Altura:</label>
-                        <div id="altura-buttons-destino" class="button-group">
-                            </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Coluna:</label>
-                        <div id="coluna-buttons-destino" class="button-group">
-                            </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="CAIXA_DESTINO">Caixa (opcional):</label>
-                        <input type="number" id="CAIXA_DESTINO" name="CAIXA_DESTINO" min="1" placeholder="Nº da caixa (ex: 1)">
-                    </div>
-                </div>
-            </form>
+            <div class="button-container">
+                <button type="submit" id="save-button" class="btn-salvar">Salvar</button>
+            </div>
+        </form>
+    </main>
+
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <h3>Confirmação de Movimentação</h3>
+            <div id="modal-summary"></div>
+            <div class="modal-buttons">
+                <button id="cancel-modal" class="btn-cancelar">Cancelar</button>
+                <button id="send-modal" class="btn-confirmar">Confirmar e Enviar</button>
+            </div>
         </div>
     </div>
     
